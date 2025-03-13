@@ -19,7 +19,6 @@ func InitDB() {
 
 	// Auto-migrate the Task model
 	err = DB.AutoMigrate(&Task{}, &Project{})
-	// err = DB.AutoMigrate(&Project{})
 	if err != nil {
 		log.Fatal("❌ Failed to migrate database:", err)
 	}
@@ -30,11 +29,12 @@ func InitDB() {
 type Project struct {
 	gorm.Model
 	Name  string
-	Tasks []Task
+	Tasks []Task `gorm:"foreignKey:TripId"`
 }
 
 type Task struct {
 	gorm.Model
+	TripId uint
 	Name   string
 	Status string
 }
